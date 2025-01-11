@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, rgb(0, 50, 106), rgb(255, 255, 255));
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: rgb(0, 50, 106);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+
+
+        /* Container */
+        .container {
+            padding: 20px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: transparent;
+            border: 2px solid transparent;
+            border-bottom: 4px solid rgba(0, 50, 106, 0.5);
+            cursor: pointer;
+            transition: 0.3s;
+            color: rgba(0, 50, 106, 0.7);
+        }
+
+        .tabs button:hover {
+            color: rgb(0, 50, 106);
+            border-bottom: 4px solid rgb(0, 50, 106);
+        }
+
+        .tabs button.active {
+            color: rgb(0, 50, 106);
+            border-bottom: 4px solid rgb(0, 50, 106);
+        }
+
+        /* Table */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table thead {
+            background-color: rgb(0, 50, 106);
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        table th {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: rgba(0, 50, 106, 0.1);
+        }
+
+        /* Table Section */
+        .table-section {
+            display: none;
+        }
+
+        .table-section.active {
+            display: block;
+        }
+
+        /* Buttons */
+        .button-link {
+            display: inline-block;
+            margin: auto;
+            text-align: center;
+            padding: 8px 12px;
+            background-color: rgb(0, 50, 106);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .button-link:hover {
+            background-color: rgba(0, 50, 106, 0.8);
+        }
+
+        /* Logo Container */
+        .logo-container {
+            background-color: #ffffff;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tabs button {
+                margin-bottom: 5px;
+            }
+
+            table th,
+            table td {
+                font-size: 14px;
+            }
+
+            .navbar .user {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            table th,
+            table td {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .button-link {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+
+        /* Navbar */
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgb(0, 50, 106);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .navbar .logo-container {
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .navbar img {
+            height: 50px;
+        }
+
+        .navbar .user {
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            /* Quitar fondo blanco */
+            position: relative;
+            /* Necesario para el menú desplegable */
+        }
+
+        .navbar .user:hover {
+            background-color: #365899;
+            color: white;
+        }
+
+        .navbar .user img {
+            border-radius: 50%;
+            margin-right: 10px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .navbar .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .user-menu-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .navbar .user-menu-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .user-menu-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .navbar .user-menu-content a i {
+            margin-right: 10px;
+            color: black;
+        }
+
+        .navbar .user-menu:hover .user-menu-content {
+            display: block;
+        }
+
+
+
+        /* Estilos principales para el contenedor del usuario */
+        .user {
+            cursor: pointer;
+            padding: 10px 15px;
+            /* Ajusta el relleno para más consistencia */
+            background-color: #4267B2;
+            /* Fondo del botón */
+            color: white;
+            /* Texto blanco */
+            border-radius: 30px;
+            /* Bordes redondeados */
+            display: flex;
+            /* Flexbox para alinear elementos */
+            align-items: center;
+            /* Centrar verticalmente */
+            gap: 10px;
+            /* Espaciado uniforme entre avatar y texto */
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efecto hover */
+        .user:hover {
+            background-color: #365899;
+            /* Fondo más oscuro al pasar el cursor */
+        }
+
+        /* Estilos para el avatar */
+        .user img {
+            width: 40px;
+            /* Tamaño del avatar */
+            height: 40px;
+            border-radius: 50%;
+            /* Hacer el avatar circular */
+            object-fit: cover;
+            /* Ajustar imagen sin distorsión */
+        }
+
+        /* Asegurar que el texto no tenga fondo adicional */
+        .user span {
+            background: none;
+            /* Sin fondo */
+            color: inherit;
+            /* Hereda el color del contenedor */
+        }
+
+        /* Menú desplegable */
+        .user-menu-content {
+            display: none;
+            /* Ocultar por defecto */
+            position: absolute;
+            top: 100%;
+            /* Aparece justo debajo del usuario */
+            right: 0;
+            background-color: white;
+            /* Fondo blanco */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            /* Sombra sutil */
+            border-radius: 8px;
+            overflow: hidden;
+            width: 250px;
+            /* Ancho del menú */
+            z-index: 10;
+        }
+
+        /* Opciones del menú */
+        .user-menu-content a {
+            display: flex;
+            /* Usar flexbox para alinear icono y texto */
+            align-items: center;
+            padding: 10px 15px;
+            /* Espaciado interno */
+            gap: 10px;
+            /* Espacio entre ícono y texto */
+            text-decoration: none;
+            color: #333;
+            /* Color del texto */
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efecto hover en las opciones */
+        .user-menu-content a:hover {
+            background-color: #f0f0f0;
+            /* Fondo gris claro */
+        }
+
+        /* Íconos del menú */
+        .user-menu-content a i {
+            color: #4267B2;
+            /* Color del ícono */
+            font-size: 16px;
+        }
+
+        /* Mostrar menú al hacer hover */
+        .user-menu:hover .user-menu-content {
+            display: block;
+        }
+    </style>
+
+    <script>
+        function switchTab(tabId) {
+            const tables = document.querySelectorAll('.table-section');
+            tables.forEach(table => table.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+
+            const buttons = document.querySelectorAll('.tabs button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(`${tabId}-button`).classList.add('active');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="user-menu">
+            <div class="user">
+                <img src="images.jpg" alt="Avatar">
+                <span>Administrador</span>
+            </div>
+            <div class="user-menu-content">
+                <a href="perfil.html"><i class="fas fa-user"></i> Mi Perfil</a>
+                <a href="cambiar_contrasena.html"><i class="fas fa-key"></i> Cambiar Contraseña</a>
+                <a href="agregar_usuario.html"><i class="fas fa-user-plus"></i> Agregar Usuario</a>
+                <a href="cerrar_sesion.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <h2>Datos del Proceso</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Número de expediente</td>
+                        <td>060-2021-TA-CCIA</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Demandante</td>
+                        <td>Consorcio Vulcano</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Demandado</td>
+                        <td>Municipalidad Distrital de Mariano Melgar</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cuantía</td>
+                        <td>S/ 363,598.00</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de ingreso</td>
+                        <td>2021-07-15 00:00:00</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Fecha final</td>
+                        <td>0000-00-00 00:00:00</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Estado</td>
+                        <td>LAUDADO</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h2>Tribunal</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Valor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Secretario</td>
+                        <td>Santiago Adrian Carrasco</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Presidente</td>
+                        <td>Miguel Angel Santa Cruz Vital</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Suplente 1</td>
+                        <td>César Cornejo Samanez</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Suplente 2</td>
+                        <td>Diana Maria Revoredo Lituma</td>
+                        <td>
+                            <div style="display: flex; gap: 10px;">
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                </button>
+                                <button
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tabs">
+            <button id="escritos-button" onclick="switchTab('escritos')">Escritos</button>
+            <button id="cartas-button" onclick="switchTab('cartas')">Cartas/Comunicados</button>
+            <button id="resoluciones-button" onclick="switchTab('resoluciones')">Resoluciones/Notificaciones</button>
+            <button id="audiencias-button" class="active" onclick="switchTab('audiencias')">Audiencias</button>
+        </div>
+
+        <div id="escritos" class="table-section">
+            <h2>Escritos</h2>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                <button
+                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-plus" style="margin-right: 8px;"></i> Crear
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sumilla</th>
+                            <th>Representante</th>
+                            <th>Fecha</th>
+                            <th>Archivo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Solicitud de notificación física</td>
+                            <td>Municipalidad Distrital de Mariano Melgar</td>
+                            <td>27/12/2022</td>
+                            <td>
+                                <button title="27-12-2022_13_46_30_Ev.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Solicitud de notificación física</td>
+                            <td>Municipalidad Distrital de Mariano Melgar</td>
+                            <td>27/12/2022</td>
+                            <td>
+                                <button title="27-12-2022_13_47_15_Ev.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="cartas" class="table-section">
+            <h2>Cartas/Comunicados</h2>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                <button
+                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    <i class="fas fa-plus" style="margin-right: 8px;"></i> Crear
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tipo</th>
+                            <th>Remitente</th>
+                            <th>N° documento</th>
+                            <th>Destinatario</th>
+                            <th>Detalle</th>
+                            <th>F. elaboración</th>
+                            <th>F. envío</th>
+                            <th>F. notificación</th>
+                            <th>Carta digital</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Carta</td>
+                            <td>Santiago José Adrian Carrasco</td>
+                            <td>0058-2023</td>
+                            <td>Municipalidad Distrital de Mariano Melgar</td>
+                            <td>Remite Razón de Secretaría por encargo del Tribunal Arbitral</td>
+                            <td>09/01/2023</td>
+                            <td>09/01/2023</td>
+                            <td>09/01/2023</td>
+                            <td>
+                                <button
+                                    title="Municipalidad Distrital de Mariano Melgar - remite Razón de Secretaría.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Carta</td>
+                            <td>Santiago José Adrian Carrasco</td>
+                            <td>0057-2023</td>
+                            <td>Consorcio Vulcano</td>
+                            <td>Remite Razón de Secretaría por encargo del Tribunal Arbitral</td>
+                            <td>09/01/2023</td>
+                            <td>09/01/2023</td>
+                            <td>09/01/2023</td>
+                            <td>
+                                <button title="Consorcio Vulcano - remite Razón de Secretaría.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Carta</td>
+                            <td>Dra. Ludovina Villanueva</td>
+                            <td>2545-2022</td>
+                            <td>Consorcio Vulcano</td>
+                            <td>Se precisa información</td>
+                            <td>15/09/2022</td>
+                            <td>15/09/2022</td>
+                            <td>15/09/2022</td>
+                            <td>
+                                <button title="2545-2022 VULCANO - aclaración 15.09.2022.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="resoluciones" class="table-section">
+            <h2>Resoluciones/Notificaciones</h2>
+            <div class="table-container">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <button
+                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-plus" style="margin-right: 8px;"></i> Crear
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nro. Resolución</th>
+                            <th>F. resolución</th>
+                            <th>F. notificación</th>
+                            <th>Resolución digital</th>
+                            <th>Notificación digital</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Resolución N° 026-2023-TA</td>
+                            <td>02/02/2023</td>
+                            <td>02/02/2023</td>
+                            <td>
+                                <button title="2023-03-06 Res N 026.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <button title="2023-03-06 Notificaciones 026.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Resolución N° 024-2022-TA</td>
+                            <td>30/12/2022</td>
+                            <td>30/12/2022</td>
+                            <td>
+                                <button title="2023-01-04 Res N 024.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <button title="2023-01-04 Notificaciones 024.pdf"
+                                    style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-file-pdf" style="margin-right: 8px; font-size: 1.5em;"></i>
+                                    Descargar PDF
+                                </button>
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="audiencias" class="table-section active">
+            <h2>Audiencias</h2>
+            <div class="table-container">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <button
+                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #0088ff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-plus" style="margin-right: 8px;"></i> Crear
+                    </button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha y hora</th>
+                            <th>Detalle</th>
+                            <th>Archivo</th>
+                            <th>Acciones</th> <!-- Encabezado de la columna Acciones -->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2022-10-11 00:00:00</td>
+                            <td>Audiencia de Ilustración de Hechos y Actuación de Medios Probatorios</td>
+                            <td><a href="#" class="button-link">Ver video</a></td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2022-06-09 00:00:00</td>
+                            <td>Audiencia de Ilustración sobre la Excepción Consorcio Vulcano - Municipalidad Distrital
+                                de
+                                Mariano Melgar</td>
+                            <td><a href="#" class="button-link">Ver video</a></td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                    </button>
+                                    <button
+                                        style="display: flex; align-items: center; padding: 8px 12px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                        <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+
+</html>
